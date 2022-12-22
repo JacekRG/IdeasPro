@@ -1,4 +1,4 @@
-package pl.jacekplacek.ideasPro.category.controller.controller;
+package pl.jacekplacek.ideasPro.category.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -13,11 +13,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.jacekplacek.ideasPro.category.domain.model.Category;
 import pl.jacekplacek.ideasPro.category.service.CategoryService;
 import pl.jacekplacek.ideasPro.common.dto.Message;
-
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
+
+import static pl.jacekplacek.ideasPro.common.controller.ControllerUtils.paging;
 
 @Controller
 @RequestMapping("/admin/categories")
@@ -92,15 +91,5 @@ public class CategoryAdminViewController {
         categoryService.deleteCategory(id);
         ra.addFlashAttribute("message", Message.info("Kategoria usunięta"));
         return "redirect:/admin/categories";
-    }
-
-    private void paging(Model model, Page page) {
-        int totalPages = page.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
     }
 }

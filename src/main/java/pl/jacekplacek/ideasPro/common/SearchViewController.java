@@ -1,4 +1,4 @@
-package pl.jacekplacek.ideasPro.question.controller;
+package pl.jacekplacek.ideasPro.common;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,77 +18,31 @@ import java.util.UUID;
 import static pl.jacekplacek.ideasPro.common.controller.ControllerUtils.paging;
 
 @Controller
-@RequestMapping("/questions")
+@RequestMapping("/search")
 @RequiredArgsConstructor
-public class QuestionViewController extends IdeasCommonViewController {
+public class SearchViewController extends IdeasCommonViewController {
 
     private final QuestionService questionService;
-    private final AnswerService answerService;
-    private final CategoryService categoryService;
     private final IdeasConfiguration ideasConfiguration;
 
     @GetMapping
-    public String indexView(Model model) {
-        model.addAttribute("questions", questionService.getQuestions());
-        addGlobalAttributes(model);
-
-        return "question/index";
-    }
-
-    @GetMapping("{id}")
-    public String singleView(Model model, @PathVariable UUID id) {
-        model.addAttribute("question", questionService.getQuestion(id));
-        model.addAttribute("answers", answerService.getAnswers(id));
-        addGlobalAttributes(model);
-
-        return "question/single";
-    }
-
-    @GetMapping("add")
-    public String addView(Model model) {
-        model.addAttribute("question", new Question());
-
-        return "question/add";
-    }
-
-    @PostMapping
-    public String add(Question question) {
-        questionService.createQuestion(question);
-        return "redirect:/questions";
-    }
-
-    @GetMapping("hot")
-    public String hotView(
+    public String searchView(
+            @RequestParam(name = "query", required = false) String query,
             @RequestParam(name = "page", defaultValue = "1") int page,
             Model model
     ) {
         PageRequest pageRequest = PageRequest.of(page - 1, ideasConfiguration.getPagingPageSize());
 
-        Page<Question> questionsPage = questionService.findHot(pageRequest);
+        if (query != null) {
+            Page<Question> questionsPage = questionService.findByQuery(query, pageRequest);
 
-        model.addAttribute("questionsPage", questionsPage);
-        paging(model, questionsPage);
+            model.addAttribute("questionsPage", questionsPage);
+            model.addAttribute("query", query);
+            paging(model, questionsPage);
+        }
+
         addGlobalAttributes(model);
-
-        return "question/index";
-
-    }
-
-
-    @GetMapping("unanswered")
-    public String unanswered(
-            @RequestParam(name = "page", defaultValue = "1") int page,
-            Model model
-    ) {
-        PageRequest pageRequest = PageRequest.of(page - 1, ideasConfiguration.getPagingPageSize());
-
-        Page<Question> questionsPage = questionService.findUnanswered(pageRequest);
-
-        model.addAttribute("questionsPage", questionsPage);
-        paging(model, questionsPage);
-        addGlobalAttributes(model);
-
-        return "question/index";
+        return "search/index";
 
     }
 

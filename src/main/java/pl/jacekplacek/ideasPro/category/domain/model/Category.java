@@ -3,16 +3,32 @@ package pl.jacekplacek.ideasPro.category.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+import pl.jacekplacek.ideasPro.question.domain.model.Question;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
+@Getter
+@Setter
 public class Category {
-    private String name;
+
     @Id
     private UUID id;
+
+    @NotBlank(message = "{ideas.validation.name.NotBlank.message}")
+    @Size(min = 3, max = 255)
+    private String name;
+
+    @OneToMany(mappedBy = "category")
+    private List<Question> questions;
 
     public Category() {
         this.id = UUID.randomUUID();
@@ -21,21 +37,5 @@ public class Category {
     public Category(String name) {
         this.id = UUID.randomUUID();
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 }

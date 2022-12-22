@@ -1,5 +1,6 @@
-package pl.jacekplacek.ideasPro.category.controller.controller;
+package pl.jacekplacek.ideasPro.category.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,19 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import pl.jacekplacek.ideasPro.category.domain.model.Category;
 import pl.jacekplacek.ideasPro.category.service.CategoryService;
 
-import java.util.List;
+
 import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/categories")
+@RequiredArgsConstructor
 public class CategoryApiController {
 
     private final CategoryService categoryService;
-
-    @Autowired
-    public CategoryApiController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
 
     @GetMapping
     Page<Category> getCategories(Pageable pageable) {

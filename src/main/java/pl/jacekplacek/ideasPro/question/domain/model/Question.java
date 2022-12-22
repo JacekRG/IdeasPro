@@ -1,49 +1,66 @@
 package pl.jacekplacek.ideasPro.question.domain.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import pl.jacekplacek.ideasPro.category.domain.model.Category;
 
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "questions")
-public class  Question {
-    private String name;
+@Getter
+@Setter
+@ToString
+public class Question {
+
     @Id
     private UUID id;
 
-    public UUID getId() {
-        return id;
-    }
+    private String name;
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    @ManyToOne
+    private Category category;
 
-    @Override
-    public String toString() {
-        return "Question{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                '}';
-    }
+    @OneToMany(mappedBy = "question")
+    private Set<Answer> answers;
+
+    private LocalDateTime created;
+
+    private LocalDateTime modified;
 
     public Question() {
-    }
-
-    public Question(String name) {
-        this.name = name;
         this.id = UUID.randomUUID();
     }
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Question(String name) {
+        this();
         this.name = name;
     }
 
+    @PrePersist
+    void prePersist() {
+        created = LocalDateTime.now();
+        modified = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        modified = LocalDateTime.now();
+    }
+
+    public Question addAnswer(Answer answer) {
+        if (answers == null) {
+            answers = new LinkedHashSet<>();
+        }
+
+        answer.setQuestion(this);
+        answers.add(answer);
+
+        return this;
+    }
 }

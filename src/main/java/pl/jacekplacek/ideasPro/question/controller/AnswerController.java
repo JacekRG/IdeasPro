@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.jacekplacek.ideasPro.question.domain.model.Answer;
-import pl.jacekplacek.ideasPro.question.domain.model.Question;
 import pl.jacekplacek.ideasPro.question.service.AnswerService;
-import pl.jacekplacek.ideasPro.question.service.QuestionsService;
 
 import java.util.List;
 import java.util.UUID;

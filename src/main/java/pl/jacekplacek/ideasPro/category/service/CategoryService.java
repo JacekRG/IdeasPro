@@ -1,10 +1,12 @@
 package pl.jacekplacek.ideasPro.category.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.jacekplacek.ideasPro.category.domain.model.Category;
 import pl.jacekplacek.ideasPro.category.domain.repository.CategoryRepository;
-
+import pl.jacekplacek.ideasPro.category.dto.CategoryWithStatisticsDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,8 +21,17 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public List<Category> getCategories() {
-        return categoryRepository.findAll();
+    public Page<Category> getCategories(Pageable pageable) {
+        return getCategories(null, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Category> getCategories(String search, Pageable pageable) {
+        if (search == null) {
+            return categoryRepository.findAll(pageable);
+        } else {
+            return categoryRepository.findByNameContainingIgnoreCase(search, pageable);
+        }
     }
 
     @Transactional(readOnly = true)
@@ -33,6 +44,7 @@ public class CategoryService {
         Category category = new Category();
 
         category.setName(categoryRequest.getName());
+
         return categoryRepository.save(category);
     }
 
@@ -41,12 +53,18 @@ public class CategoryService {
         Category category = categoryRepository.getById(id);
 
         category.setName(categoryRequest.getName());
+
         return categoryRepository.save(category);
     }
 
     @Transactional
     public void deleteCategory(UUID id) {
         categoryRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryWithStatisticsDto> findAllWithStatistics() {
+        return categoryRepository.findAllWithStatistics();
     }
 
 }
