@@ -1,4 +1,4 @@
-docker login ghcr.io --username jacekrg --password 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
+# docker login ghcr.io --username jacekrg --password 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
 docker image pull ghcr.io/jacekrg/ideaspro
 
 docker container stop ideaspro
