@@ -41,6 +41,14 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor}}
         password: ${{ secrets.GH_TOKEN}}
+        
+    - name: Build and push docker image
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: true
+        tags: |
+          ghcr.io/jacekrg/ideasPro:latest
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
