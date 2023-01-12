@@ -48,7 +48,7 @@ jobs:
         context: .
         push: true
         tags: |
-          ghcr.io/jacekrg/ideasPro:latest
+          ghcr.io/jacekrg/ideaspro:latest
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
