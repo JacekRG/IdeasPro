@@ -13,37 +13,39 @@ import java.util.UUID;
 @RequestMapping("api/v1/questions")
 public class QuestionApiController {
 
-    private final QuestionService questionsService;
+    private final QuestionService questionService;
 
-    public QuestionApiController(QuestionService questionsService) {
-        this.questionsService = questionsService;
+    @Autowired
+    public QuestionApiController(QuestionService questionService) {
+        this.questionService = questionService;
     }
 
     @GetMapping
-    List<Question> getQuestions(){
-        return questionsService.getQuestions();
+    List<Question> getQuestions() {
+        return questionService.getQuestions();
     }
 
     @GetMapping("{id}")
-    Question getQuestion(@PathVariable UUID id){
-        return questionsService.getQuestion(id);
+    Question getQuestion(@PathVariable UUID id) {
+        return questionService.getQuestion(id);
     }
 
-    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    Question createQuestion(@RequestBody Question question){
-        return questionsService.createQuestion(question);
+    @PostMapping
+    Question createQuestion(@RequestBody Question question) {
+        return questionService.createQuestion(question);
     }
 
-    @PutMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    Question updateQuestion(@PathVariable UUID id, @RequestBody Question question){
-        return questionsService.updateQuestion(id, question);
+    @PutMapping("{id}")
+    Question updateQuestion(@PathVariable UUID id, @RequestBody Question question) {
+        return questionService.updateQuestion(id, question);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
-    void deleteQuestion(@PathVariable UUID id){
-        questionsService.deleteQuestion(id);
+    void deleteQuestion(@PathVariable UUID id) {
+        questionService.deleteQuestion(id);
     }
+
 }

@@ -1,5 +1,6 @@
 package pl.jacekplacek.ideasPro.question.service;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,24 +31,22 @@ public class QuestionService {
 
     @Transactional(readOnly = true)
     public Question getQuestion(UUID id) {
-        return questionRepository.getById(id);
+        return questionRepository.findById(id)
+                .orElseThrow();
     }
 
     @Transactional
-    public Question createQuestion(Question questionRequest) {
+    public Question createQuestion(@NotNull Question questionRequest) {
         Question question = new Question();
-
         question.setName(questionRequest.getName());
-
         return questionRepository.save(question);
     }
 
     @Transactional
-    public Question updateQuestion(UUID id, Question questionRequest) {
-        Question question = questionRepository.getById(id);
-
+    public Question updateQuestion(UUID id, @NotNull Question questionRequest) {
+        Question question = questionRepository.findById(id)
+                .orElseThrow();
         question.setName(questionRequest.getName());
-
         return questionRepository.save(question);
     }
 
@@ -71,9 +70,13 @@ public class QuestionService {
         return questionRepository.findUnanswered(pageable);
     }
 
-    @Transactional(readOnly = true)
     public Page<Question> findByQuery(String query, Pageable pageable) {
         return questionRepository.findByQuery(query, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public StatisticsDto statistics() {
+        return questionRepository.statistics();
     }
 
     @Transactional(readOnly = true)
@@ -98,10 +101,5 @@ public class QuestionService {
                 .stream()
                 .map(questionMapper::map)
                 .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public StatisticsDto statistics() {
-        return questionRepository.statistics();
     }
 }

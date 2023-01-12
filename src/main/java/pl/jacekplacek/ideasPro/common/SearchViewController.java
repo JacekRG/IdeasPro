@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.jacekplacek.ideasPro.IdeasConfiguration;
+import pl.jacekplacek.ideasPro.common.configuration.IdeasConfiguration;
 import pl.jacekplacek.ideasPro.category.service.CategoryService;
 import pl.jacekplacek.ideasPro.common.controller.IdeasCommonViewController;
 import pl.jacekplacek.ideasPro.question.domain.model.Question;

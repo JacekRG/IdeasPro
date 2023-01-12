@@ -1,5 +1,4 @@
-package pl.jacekplacek.ideasPro;
-
+package pl.jacekplacek.ideasPro.common.configuration;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class IdeasConfiguration {
 
-    private String name;
-    @Value("${paging.pageSize:2}")
-    private int pagingPageSize;
-    }
+	private String name;
+
+	@Value("${paging.pageSize:2}")
+	private int pagingPageSize;
+}

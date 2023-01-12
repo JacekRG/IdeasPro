@@ -1,5 +1,6 @@
 package pl.jacekplacek.ideasPro.category.controller;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,13 +25,16 @@ public class CategoryViewController extends IdeasCommonViewController {
     private final QuestionService questionService;
 
     @GetMapping("{id}")
-    public String singleView(@PathVariable UUID id, Model model){
+    public String singleView(@PathVariable UUID id, @NotNull Model model) {
+
         Category category = categoryService.getCategory(id);
         List<Question> questions = questionService.findAllByCategoryId(id);
 
         model.addAttribute("category", category);
         model.addAttribute("questions", questions);
         addGlobalAttributes(model);
+
         return "category/single";
+
     }
 }

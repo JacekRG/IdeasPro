@@ -1,5 +1,6 @@
 package pl.jacekplacek.ideasPro.category.service;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,24 +37,22 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public Category getCategory(UUID id) {
-        return categoryRepository.getById(id);
+        return categoryRepository.findById(id)
+                .orElseThrow();
     }
 
     @Transactional
-    public Category createCategory(Category categoryRequest) {
+    public Category createCategory(@NotNull Category categoryRequest) {
         Category category = new Category();
-
         category.setName(categoryRequest.getName());
-
         return categoryRepository.save(category);
     }
 
     @Transactional
-    public Category updateCategory(UUID id, Category categoryRequest) {
-        Category category = categoryRepository.getById(id);
-
+    public Category updateCategory(UUID id, @NotNull Category categoryRequest) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow();
         category.setName(categoryRequest.getName());
-
         return categoryRepository.save(category);
     }
 
@@ -66,5 +65,4 @@ public class CategoryService {
     public List<CategoryWithStatisticsDto> findAllWithStatistics() {
         return categoryRepository.findAllWithStatistics();
     }
-
 }
