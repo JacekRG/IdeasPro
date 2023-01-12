@@ -49,6 +49,14 @@ jobs:
         push: true
         tags: |
           ghcr.io/jacekrg/ideaspro:latest
+          
+    - name: Deploy application on remote host
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.PROD_SSH_HOST }}
+        username: ${{ secrets.PROD_SSH_USERNAME }}
+        password: ${{ secrets.PROD_SSH_PASSWORD }}
+        script: ./deploy.sh
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
