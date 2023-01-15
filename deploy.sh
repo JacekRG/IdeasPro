@@ -9,3 +9,4 @@ docker container rm ideaspro
 
 docker run -d --name ideaspro --net=host ghcr.io/jacekrg/ideaspro
 
+
