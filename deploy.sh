@@ -1,5 +1,5 @@
 
-docker login ghcr.io --username jacekrg --password ${{ secrets.GH_TOKEN }}
+docker login ghcr.io --username jacekrg --password-stdin ${{ secrets.GH_TOKEN }}
 docker image pull ghcr.io/jacekrg/ideaspro
 
 docker container stop ideaspro
