@@ -1,6 +1,6 @@
 # 100 Ideas App
 
-#### Do you want to know the answer about something? Great! You are in good place! 100 Ideas is application where You can find the answer on any question you want and any topic you like. Maybe you know the answer on question which was asked for someone else? Share it!
+#### Do you want to know the answer about something? Great! You are in good place! 100 Ideas is application where you can find the answer on any question you want and any topic you like. Maybe you know the answer on question which was asked for someone else? Share it!
 
 ## Table of Contents
 * [General Information](#general-information)
